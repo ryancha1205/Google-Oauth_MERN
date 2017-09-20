@@ -11,11 +11,15 @@ module.exports =(app)=>{
 
   app.get(
     "/auth/google/callback",
-  passport.authenticate('google'));
+  passport.authenticate('google'),
+  (req,res)=>{
+    res.redirect('/surveys');
+  }
+);
 
   app.get('/api/logout',(req,res)=>{
     req.logout();  //by passport function
-    res.send(req.user);  //be destoryed by passport
+    res.redirect('/');
   });
 
   app.get('/api/current_user',(req,res)=>{
