@@ -6,10 +6,10 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/user');
 require('./services/passport');
+require('./models/Survey');
 
-
-mongoose.connect(keys.mongoURI);
-
+mongoose.Promise = global.Promise;
+mongoose.connect(keys.mongoURI, { useMongoClient: true });
 const app = express();
 
 app.use(bodyParser.json()); //req.body를 쓸수있게 해준다.
@@ -24,6 +24,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 //to make sure production environment
 if(process.env.NODE_ENV==="production"){
